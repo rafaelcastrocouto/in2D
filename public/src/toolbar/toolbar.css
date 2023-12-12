@@ -1,0 +1,13 @@
+.toolBar {
+  grid-area: bar;
+}
+.toolBar input[type=text] {
+  width: 100px;
+}
+.toolBar > *,
+.editBar > * {
+  margin-right: 4px;
+  margin-bottom: 6px;
+  line-height: 24px;
+  padding: 0 4px;
+}

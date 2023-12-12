@@ -1,0 +1,124 @@
+.fileTree {
+  background: #e6e6e6;
+  min-width: 22px;
+  width: 25vw;
+  max-width: 50vw;
+  min-height: 78px;
+  max-height: calc(100vh - 164px);
+  resize: both;
+  overflow-x: auto;
+  overflow-y: scroll;
+  padding-right: 6px;
+  padding-top: 4px;
+  margin-right: var(--margin);
+  font-family: sans-serif;
+  font-size: 13px;
+  grid-area: tree;
+}
+.fileTree ul {
+  padding: 0;
+  margin: 0;
+  margin-left: var(--margin);
+  list-style: none;
+  min-width: 100px;
+}
+.fileTree ul ul {
+  list-style-type: "└";
+}
+.fileTree li::marker {
+  color: gray;
+}
+.fileTree .row {
+  background: lightgray;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 4px;
+  margin-top: 4px;
+  border-radius: 4px;
+  white-space: nowrap;
+  height: 30px;
+  display: grid;
+}
+.fileTree .file > .row {
+  grid-template:
+    "itemName menuIcon" min-content / 1fr;
+}
+.fileTree .folder > .row {
+  grid-template:
+    "folderIcon itemName menuIcon" min-content / 28px 1fr;
+}
+.fileTree .row:hover,
+.fileTree .row.active {
+  background: #f2f2f2;
+}
+.fileTree .row.active:hover {
+  background: #fff;
+}
+.fileTree span {
+  line-height: 30px;
+  cursor: pointer;
+}
+.fileTree .folderIcon {
+  grid-area: folderIcon;
+  font-family: Monospace;
+}
+.fileTree .itemName {
+  user-select: text;
+  grid-area: itemName;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+}
+.fileTree .file > .row > .itemName {
+  margin-left: var(--margin);
+}
+.fileTree .itemName:hover {
+  text-decoration: underline;
+}
+.fileTree .menuIcon {
+  grid-area: menuIcon;
+}
+.fileTree .folderIcon,
+.fileTree .menuIcon {
+  width: 26px;
+  height: 26px;
+  line-height: 28px;
+  margin: 2px;
+}
+.fileTree .menuIcon {
+  background: #00000012;
+}
+.fileTree .menuIcon:hover {
+  background: #00000009;
+}
+
+@media (prefers-color-scheme: dark) {
+  .fileTree {
+    background: #232323;
+    color: #E2E2E2;
+  }
+  .fileTree li::marker {
+    color: #666;
+  }
+  .fileTree .row {
+    background: #3b3b3b;
+    text-shadow: 0 1px var(--darkgray);
+  }
+  .fileTree .row:hover {
+    background: #6b6b6b;
+  }
+  .fileTree .row.active {
+    color: #fff;
+    background: hsl(0deg 0% 36%);
+  }
+  .fileTree .row.active:hover {
+    background: #7b7b7b;
+  }
+  .fileTree .menuIcon {
+    background: #fff2;
+  }
+  .fileTree .menuIcon:hover {
+    background: #fff4;
+  }
+}
+

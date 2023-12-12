@@ -1,0 +1,34 @@
+.editorContainer {
+  display: grid;
+  grid-area: editor;
+  grid-template:
+    "editBar" min-content
+    "editorTabs" min-content
+    "aceeditor" 1fr;
+}
+.editorContainer .editorTabs .tab {
+  padding: 3px 2px 3px 8px;
+  height: 20px;
+}
+.editorTabs .tab.active {
+  box-shadow: none;
+}
+.editBar,
+.ace_editor {
+  border: 1px solid gray;
+}
+.editBar {
+  padding: 6px;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.ace_editor {
+  grid-area: aceeditor;
+  border-top: 0;
+}
+@media (prefers-color-scheme: dark) {
+  .editBar,
+  .ace_editor {
+    border-color: #555;
+  }
+}

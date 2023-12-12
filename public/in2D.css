@@ -1,0 +1,144 @@
+:root {
+  --lightgray: #d0d0d0;
+  --darkgray: #30303b;
+  --margin: 8px;
+}
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+button {
+  cursor: pointer;
+  border: 1px solid #666;
+  border-radius: 3px;
+  background: #eee;
+}
+button[disabled] {
+  cursor: default;
+  background: #aaa;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #999 #ccc;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: #ccc;
+}
+::-webkit-scrollbar-corner {
+  background: #0000;
+  border: 4px solid #bbb;
+  border-top-color: #0000;
+  border-left-color: #0000;
+}
+::-webkit-scrollbar-thumb {
+  background: #999;
+}
+.round {
+  text-align: center;
+  border-radius: 50%;
+}
+#grid {
+  user-select: none;
+  height: 100vh;
+  display: grid;
+  grid-template:
+    "mainTabs" min-content
+    "tabContent" min-content
+    "bot" 1fr;
+}
+.hidden {
+  display: none;
+}
+#bot {
+  overflow: auto;
+  padding: var(--margin);
+  grid-area: bot;
+  display: grid;
+  grid-template:
+    "refs cmd" 1fr / min-content 1fr;
+}
+#references {
+  grid-area: refs;
+  overflow: auto;
+  width: 25vw;
+  max-width: 90vw;
+  padding: 8px;
+  padding-right: 0;
+  margin-right: 8px;
+  resize: horizontal;
+  overflow-y: scroll;
+  background: #ccc;
+}
+#references ul {
+  margin: 0;
+  padding: 0;
+  font-family: Monospace;
+}
+#references li {
+  white-space: nowrap;
+}
+#commands {
+  grid-area: cmd;
+  overflow: auto;
+  background: #ccc;
+  font-family: Monospace;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+#commands p {
+  margin: 2px;
+}
+#commands input {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  font-family: Monospace;
+}
+#log {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    color-scheme: dark;
+    background: var(--darkgray);
+    color: #fff;
+    min-width: 420px;
+  }
+  button {
+    color: white;
+    border: 1px solid #888;
+    border-radius: 3px;
+    background: #666;
+  }
+  button[disabled] {
+    color: #aaa;
+    background: #444;
+  }
+  * {
+    scrollbar-color: #555 #1e1e20;
+  }
+  ::-webkit-scrollbar,
+  ::-webkit-scrollbar-corner {
+    background: #1e1e20;
+  }
+  ::-webkit-resizer{
+    border: 4px solid #444;
+    border-top-color: #0000;
+    border-left-color: #0000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #555;
+  }
+  #commands {
+    background: #141414;
+  }
+  #references {
+    background: #232323;
+  }
+}
