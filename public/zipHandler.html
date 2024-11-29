@@ -1,0 +1,100 @@
+<input type="file" id="fileInput">
+
+<br><br>
+
+<button id="fileBase64Bt">base64</button>
+<button id="fileZipBt">ZIP</button>
+
+<br><br><br>
+
+
+<textarea id="stringInput" placeholder="paste text here"></textarea>
+
+<br><br>
+
+<button id="stringBase64Bt">base64</button>
+<button id="stringZipBt">ZIP</button>
+
+<br><br>
+
+<pre id="output"></pre>
+
+<script src="lib/zip/jszip.js"></script>
+
+
+<script>
+  
+const fileInput = document.getElementById('fileInput');
+const fileBase64Bt = document.getElementById('fileBase64Bt');
+const fileZipBt = document.getElementById('fileZipBt');
+  
+const stringInput = document.getElementById('stringInput');
+const stringBase64Bt = document.getElementById('stringBase64Bt');
+const stringZipBt = document.getElementById('stringZipBt');
+
+const output = document.getElementById('output');
+  
+const zipFile = async (path, data) => {
+  var zipHandler = new JSZip();
+  zipHandler.file(path, data, zipCompressOptions);
+  return await zipHandler.generateAsync({ type: 'base64' });
+};
+const unzipFile = async (path, compressedData) => {
+  var zipHandler = new JSZip();
+  await zipHandler.loadAsync(atob(compressedData));
+  return await zipHandler.file(path).async('text');
+};
+
+const baseFile = (text) => {
+  return btoa(encodeURI(text));
+};
+const unBaseFile = (compressedData) => {
+  return decodeURI(atob(compressedData));
+};
+  
+const zipCompressOptions = {
+  compression: 'DEFLATE',
+  compressionOptions: {
+    level: 9
+  }
+};
+
+const readFile = (event, cb) => {
+  const file = fileInput.files[0];
+  if (file) {
+    const name = file.name;
+    const reader = new FileReader();
+    reader.addEventListener('load', async (readerEvent) => {
+      await zip.file(name, readerEvent.target.result, zipCompressOptions);
+      const text = await zip.file(name).async('text');
+      cb(name, text);
+    });
+    reader.readAsArrayBuffer(file);
+  }
+};
+  
+const zip = new JSZip();
+  
+fileBase64Bt.addEventListener('click', event => {
+  readFile(event, (name, text) => { 
+    output.innerHTML += name + ' base64:<br>' + baseFile(text) + '<br><br>';
+  });
+});
+
+fileZipBt.addEventListener('click', event => {
+  readFile(event, async (name, text) => {
+    let data = await zipFile(name, text);
+    output.innerHTML += name + ' zip:<br>' + data + '<br><br>';
+  });
+});
+
+stringBase64Bt.addEventListener('click', event => {
+  output.innerHTML += 'string base64:<br>' + baseFile(stringInput.value) + '<br><br>';
+});
+
+stringZipBt.addEventListener('click', async event => {
+  let data = await zipFile(stringInput.value);
+  output.innerHTML += 'string zip:<br>' + data + '<br><br>';
+});
+  
+</script>

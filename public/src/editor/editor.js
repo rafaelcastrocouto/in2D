@@ -1,42 +1,16 @@
 const Editor = function () {
   this.sessions = {};
-  this.darkModeLoaded = false;
   const start = async (parent) => {
-    // online path
-    ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.5/');
-    const aceEditor = ace.edit();
+    const editor = refs.buildDom(['div', { class: 'editor', contentEditable: true } ], refs.mainTabContent);
     // events
-    aceEditor.on('input', updateEditor);
+    editor.on('input', updateEditor);
     window.addEventListener('beforeunload', confirmQuit);
-    aceEditor.commands.addCommand(saveCommand);
-    // dark mode
-    const darkModeScheme = matchMedia('(prefers-color-scheme: dark)');
-    await editorLoadDarkMode(darkModeScheme);
-    editorModeChange.call(this, darkModeScheme, aceEditor);
-    darkModeScheme.addEventListener('change', editorModeChange.bind(this, darkModeScheme, aceEditor));
-    // dom
+    editor.commands.addCommand(saveCommand);
     const editorContainer = refs.buildDom(['session', {class: 'editorContainer'}], parent);
     refs.editor.tabs = refs.buildDom(startEditorTabs(), editorContainer, refs);
     const editBar = refs.toolBar.editBar(editorContainer);
-    editorContainer.appendChild(aceEditor.container);
-    // resize
-    let observer = new ResizeObserver( aceEditor.resize.bind(aceEditor) );
-    observer.observe(editorContainer, { attributes: true });
-    // extensions
-    await importJS('lib/editor/ext-language_tools.js');
-    ace.require("ace/ext/language_tools");
-    // mode
-    await importJS('lib/editor/ext-modelist.min.js');
-    ace.require("ace/ext/modelist");
-    await importJS('lib/editor/mode-html.js');
-    aceEditor.session.setOptions({ mode: 'ace/mode/html' });
-    // options
-    aceEditor.setOptions(editorSessionOptions);
-    aceEditor.session.setUseSoftTabs(true);
-    aceEditor.session.setTabSize(2);
-    // value 
-    aceEditor.session.setValue(rootHTML);
-    refs.editor.sessions[rootName] = aceEditor.session;
+    editorContainer.appendChild(editor.container);
+    refs.editor.sessions[refs.rootName] = refs.rootHTML;
     /*
     todo
     emmet html auto complete https://ace.c9.io/build/demo/emmet.html
@@ -45,14 +19,12 @@ const Editor = function () {
     https://ace.c9.io/build/kitchen-sink.html
     offline worker validation https://github.com/ajaxorg/ace/wiki/Syntax-validation
     */
-    return aceEditor;
+    return editor;
   };
   this.start = start;
   const confirmQuit = (event) => {
-    if (!refs.editor.aceEditor.session.getUndoManager().isClean()) {
-      event.preventDefault();
-      return event.returnValue = "Are you sure you want to exit? Changes you made may not be saved";
-    }
+    event.preventDefault();
+    return event.returnValue = "Are you sure you want to exit? Changes you made may not be saved";
   };
   const saveCommand = {
     name: 'save',
@@ -67,7 +39,7 @@ const Editor = function () {
     }
   };
   const newEditorTab = (path) => {
-    const name = nameFromPath(path);
+    const name = refs.nameFromPath(path);
     const xChar = decodeURI('%C3%97');
     const closeBt = ['span', { class: 'closeIcon round'/*, onclick: closeFileTab*/  }, xChar];
     const nameSpan = ['span', { class: 'name' }, name];
@@ -79,22 +51,6 @@ const Editor = function () {
     ]; 
     return editorTabs;
   };
-  const editorSessionOptions = {
-    enableSnippets: false,
-    enableLiveAutocompletion: true,
-    useWorker: false
-  };
-  const editorLoadDarkMode = async (event) => {
-    if (event.matches && !refs.editor.darkModeLoaded) {
-      await importJS('lib/editor/theme-twilight.js');
-      refs.editor.darkModeLoaded = true;
-    }
-    return event.matches;
-  };
-  const editorModeChange = (event, editor) => {
-    if (event.matches) editor.setOptions({ theme: 'ace/theme/twilight' });
-    else editor.setOptions({ theme: 'ace/theme/textmate' });
-  };
   const newSession = async (path, text) => {
     if (!refs.editor.sessions[path]) {
       const modeList = ace.require("ace/ext/modelist");
@@ -104,7 +60,7 @@ const Editor = function () {
       newSession.setTabSize(2);
       newSession.setOptions(editorSessionOptions);
       newSession.setOptions({ mode: autoMode });
-      refs.editor.aceEditor.setSession(newSession);
+      refs.editor.innerHTML = text;
       refs.editor.sessions[path] = newSession;
       refs.editor.tabs.querySelector('.active').classList.remove('active');
       const newTab = refs.buildDom(newEditorTab(path));
@@ -134,7 +90,7 @@ const Editor = function () {
         if (isRoot) text = '\n' + text;
         refs.zip.file(path, text, zipCompressOptions);
         await setFileData(path, text, rootFiles);
-        const oldHTML = refs.editor.sessions[rootName].getValue();
+        const oldHTML = refs.editor.sessions[refs.rootName].getValue();
         const parser = new DOMParser();
         const virtualDoc = parser.parseFromString(oldHTML, 'text/html');
         if (isRoot) {
@@ -145,7 +101,7 @@ const Editor = function () {
           await setFileData(path, text, virtualFiles);
         }
         const newHTML = virtualDoc.children[0].outerHTML;
-        refs.editor.sessions[rootName].setValue(newHTML);
+        refs.editor.sessions[refs.rootName].setValue(newHTML);
       }
     }
     refs.toolBar.updateEditBar();

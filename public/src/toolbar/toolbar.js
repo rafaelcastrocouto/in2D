@@ -25,14 +25,14 @@ const ToolBar = function () {
     const data = await zipFile(name, text);
     const pre = preRootFile(path, data, 'zip');
     rootFiles.appendChild(pre);
-    const oldHTML = refs.editor.sessions[rootName].getValue();
+    const oldHTML = refs.editor.sessions[refs.rootName].getValue();
     const parser = new DOMParser();
     const virtualDoc = parser.parseFromString(oldHTML, 'text/html');
     const newPre = preRootFile(path, data, 'zip', virtualDoc);
     virtualDoc.getElementById('rootFiles').appendChild(newPre);
     const newHTML = virtualDoc.children[0].outerHTML;
-    refs.editor.sessions[rootName].setValue(newHTML);
-    setFileData(rootName, newHTML, rootFiles);
+    refs.editor.sessions[refs.rootName].setValue(newHTML);
+    setFileData(refs.rootName, newHTML, rootFiles);
     return data;
   };
   const newFile = async () => {

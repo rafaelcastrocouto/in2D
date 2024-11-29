@@ -50,14 +50,14 @@ const FileTree = function (zip) {
     fileItem.querySelector('.itemName').addEventListener('blur', renameItem);
   };
   const createFile = (path, active) => {
-    const name = nameFromPath(path);
+    const name = refs.nameFromPath(path);
     const fileName = ['span', { class: 'itemName', onclick: openItem }, name];
     const menuIcon = ['span', { class: 'menuIcon round', /*onclick: showFileMenu*/ }, menuIconChar];
     const row = ['p', { class: ['row', active].join(' '), 'data-path': path }, [fileName, menuIcon]];
     return refs.buildDom(['li', { class: 'file' }, row]);
   };
   const createFolder = (path, active) => {
-    const name = nameFromPath(path);
+    const name = refs.nameFromPath(path);
     const folderIcon = ['span', { class: 'folderIcon round', onclick: toggleFolder }, downArrowChar];
     const folderName = ['span', { class: 'itemName', onclick: focusFolder }, name];
     const menuIcon = ['span', { class: 'menuIcon round', /*onclick: showFileMenu*/ }, menuIconChar];
@@ -115,7 +115,7 @@ const FileTree = function (zip) {
     const oldPre = getByPath(oldPath, rootFiles);
     const oldData = await getFileData(oldPath, rootFiles);
     const ext = oldPre.className;
-    const data = await zipFile(nameFromPath(newPath), oldData);
+    const data = await zipFile(refs.nameFromPath(newPath), oldData);
     const newPre = preRootFile(newPath, data, ext);
     getByPath(oldPath, rootFiles).remove();
     rootFiles.appendChild(newPre);
@@ -127,7 +127,7 @@ const FileTree = function (zip) {
     zip.remove(oldPath);
     zip.file(newPath, data, zipCompressOptions);
     // update root session
-    const oldHTML = refs.editor.sessions[rootName].getValue();
+    const oldHTML = refs.editor.sessions[refs.rootName].getValue();
     const parser = new DOMParser();
     const virtualDoc = parser.parseFromString(oldHTML, 'text/html');
     const virtualPre = preRootFile(newPath, data, 'zip', virtualDoc);
@@ -135,7 +135,7 @@ const FileTree = function (zip) {
     getByPath(oldPath, virtualFiles).remove();
     virtualFiles.appendChild(virtualPre);
     const newHTML = virtualDoc.children[0].outerHTML;
-    refs.editor.sessions[rootName].setValue(newHTML);
+    refs.editor.sessions[refs.rootName].setValue(newHTML);
     // update item session
     refs.editor.sessions[newPath] = refs.editor.sessions[oldPath];
     delete refs.editor.sessions[oldPath];
