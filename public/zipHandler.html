@@ -3,7 +3,7 @@
 <br><br>
 
 <button id="fileBase64Bt">base64</button>
-<button id="fileZipBt">ZIP</button>
+<button id="fileZipBt">ZIP</button><input type="text" id="filePathInput">
 
 <br><br><br>
 
@@ -13,7 +13,7 @@
 <br><br>
 
 <button id="stringBase64Bt">base64</button>
-<button id="stringZipBt">ZIP</button>
+<button id="stringZipBt">ZIP</button><input type="text" id="stringPathInput" value="path/to/file.in.zip">
 
 <br><br>
 
@@ -27,10 +27,12 @@
 const fileInput = document.getElementById('fileInput');
 const fileBase64Bt = document.getElementById('fileBase64Bt');
 const fileZipBt = document.getElementById('fileZipBt');
+const filePathInput = document.getElementById('filePathInput');
   
 const stringInput = document.getElementById('stringInput');
 const stringBase64Bt = document.getElementById('stringBase64Bt');
 const stringZipBt = document.getElementById('stringZipBt');
+const stringPathInput = document.getElementById('stringPathInput');
 
 const output = document.getElementById('output');
   
@@ -72,8 +74,21 @@ const readFile = (event, cb) => {
     reader.readAsArrayBuffer(file);
   }
 };
+
+const readName = (event) => {
+  const file = fileInput.files[0];
+  if (file) {
+    const name = file.name;
+    return name;
+  }
+};
   
 const zip = new JSZip();
+
+fileInput.addEventListener('change', event => {
+  const name = readName(event);
+  filePathInput.value = 'path/' + name;
+});
   
 fileBase64Bt.addEventListener('click', event => {
   readFile(event, (name, text) => { 
@@ -83,8 +98,8 @@ fileBase64Bt.addEventListener('click', event => {
 
 fileZipBt.addEventListener('click', event => {
   readFile(event, async (name, text) => {
-    let data = await zipFile(name, text);
-    output.innerHTML += name + ' zip:<br>' + data + '<br><br>';
+    let data = await zipFile(filePathInput.value, text);
+    output.innerHTML += filePathInput.value + ' zip:<br>' + data + '<br><br>';
   });
 });
 
@@ -93,7 +108,7 @@ stringBase64Bt.addEventListener('click', event => {
 });
 
 stringZipBt.addEventListener('click', async event => {
-  let data = await zipFile(stringInput.value);
+  let data = await zipFile(stringPathInput.value, stringInput.value);
   output.innerHTML += 'string zip:<br>' + data + '<br><br>';
 });
   
