@@ -334,7 +334,7 @@
           await importJS('src/editor/editor.js');
         await importCSS('src/editor/editor.css');
         refs.editor = await new Editor();
-        refs.editor.start(refs.rootName, refs.rootHTML);
+        refs.editor.start('in2D.css', document.querySelector('[data-path="in2D.css"]').textContent);
         // tabs and editBar
         startReferences(referencesEl);
         document.getElementById('cmdInput').addEventListener('keydown', cmdKeydown);

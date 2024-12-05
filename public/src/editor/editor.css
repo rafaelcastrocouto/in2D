@@ -1,3 +1,21 @@
+@font-face {
+  font-family: 'FontWithASyntaxHighlighter';
+  src: url('../../fonts/FontWithASyntaxHighlighter-Regular.woff2') format('woff2');
+}
+@font-palette-values --myCustomPalette {
+  font-family: 'FontWithASyntaxHighlighter';
+  override-colors: 
+    0 #bf67ff, /* keywords, {} */
+    1 #aaaaaf, /* comments */
+    2 #c4eed0, /* literals */
+    3 #c4eed0, /* numbers */
+    4 #facc15, /* functions, [] */
+    5 #c7c7cc, /* js others */
+    6 #c7c7cc, /* not in use */
+    7 #fe8d59, /* inside quotes, css properties, few chars */
+    8 #fff /* few chars */
+  ; 
+}
 .editorContainer {
   display: grid;
   max-height: var(--max-content);
@@ -19,7 +37,10 @@
 }
 .editor {
   border: 1px solid gray;
-  font-family: monospace;
+  font-family: "FontWithASyntaxHighlighter", monospace;
+  font-palette: --myCustomPalette;
+  color: #7cacf8;
+  font-size: 12px;
   unicode-bidi: isolate;
   white-space: pre;
   background: #1e1e20;
