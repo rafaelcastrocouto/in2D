@@ -106,10 +106,7 @@ const ToolBar = function () {
   /* edit bar */
   const editBar = (parent) => {
     const toolBar = refs.buildDom(['div', { class: 'editBar'},
-      ['button', { ref: 'undoEdit', onclick: () => refs.editor.aceEditor.undo() }, 'undo'],
-      ['button', { ref: 'redoEdit', onclick: () => refs.editor.aceEditor.redo() }, 'redo'],
-      ['button', { style: 'font-weight: bold', onclick: boldText }, 'bold'], 
-      ['button', { style: 'font-style: italic', onclick: italicText }, 'italic']
+      ['button', { ref: 'undoEdit', onclick: () => { console.log('click') } }, 'undo'],
     ], parent, refs.toolBar);
     /*todo
     content mode reactive buttons
@@ -117,18 +114,4 @@ const ToolBar = function () {
     return toolBar;
   };
   this.editBar = editBar;
-  const updateEditBar = () => {
-    const session = refs.editor.aceEditor.session;
-    refs.toolBar.undoEdit.disabled = !(session?.getUndoManager().hasUndo());
-    refs.toolBar.redoEdit.disabled = !(session?.getUndoManager().hasRedo());
-  };
-  this.updateEditBar = updateEditBar;
-  const boldText = () => {
-    refs.editor.aceEditor.session.insertSnippet('<b>${1:$SELECTION}</b>');
-    refs.editor.aceEditor.session.renderer.scrollCursorIntoView();
-  };
-  const italicText = () => {
-    refs.editor.aceEditor.session.insertSnippet('<i>${1:$SELECTION}</i>');
-    refs.editor.aceEditor.session.renderer.scrollCursorIntoView();
-  };
 };

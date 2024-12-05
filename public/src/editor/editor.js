@@ -5,31 +5,17 @@ const Editor = function () {
     // events
     editor.on('input', updateEditor);
     window.addEventListener('beforeunload', confirmQuit);
-    editor.commands.addCommand(saveCommand);
     const editorContainer = refs.buildDom(['session', {class: 'editorContainer'}], parent);
     refs.editor.tabs = refs.buildDom(startEditorTabs(), editorContainer, refs);
     const editBar = refs.toolBar.editBar(editorContainer);
     editorContainer.appendChild(editor.container);
     refs.editor.sessions[refs.rootName] = refs.rootHTML;
-    /*
-    todo
-    emmet html auto complete https://ace.c9.io/build/demo/emmet.html
-    editor options https://ace.c9.io/build/demo/settings_menu.html
-    shortcuts https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts
-    https://ace.c9.io/build/kitchen-sink.html
-    offline worker validation https://github.com/ajaxorg/ace/wiki/Syntax-validation
-    */
     return editor;
   };
   this.start = start;
   const confirmQuit = (event) => {
     event.preventDefault();
     return event.returnValue = "Are you sure you want to exit? Changes you made may not be saved";
-  };
-  const saveCommand = {
-    name: 'save',
-    exec: refs.toolBar.saveFile,
-    bindKey: { win: 'ctrl-s', mac: 'cmd-s' }
   };
   const openFileTab = (event) => {
     const tab = event.target.closest('.tab');
@@ -53,13 +39,8 @@ const Editor = function () {
   };
   const newSession = async (path, text) => {
     if (!refs.editor.sessions[path]) {
-      const modeList = ace.require("ace/ext/modelist");
-      const autoMode = modeList.getModeForPath(path).mode;
-      const newSession = ace.createEditSession(text);
-      newSession.setUseSoftTabs(true);
-      newSession.setTabSize(2);
-      newSession.setOptions(editorSessionOptions);
-      newSession.setOptions({ mode: autoMode });
+      //const newSession = createEditSession(text);
+      console.log('newSession');
       refs.editor.innerHTML = text;
       refs.editor.sessions[path] = newSession;
       refs.editor.tabs.querySelector('.active').classList.remove('active');
@@ -71,7 +52,8 @@ const Editor = function () {
   this.newSession = newSession;
   const switchSession = (path) => {
     refs.editor.tabs.querySelector('.active').classList.remove('active');
-    refs.editor.aceEditor.setSession(refs.editor.sessions[path]);
+    //setSession(refs.editor.sessions[path]);
+    console.log('setSession');
     const tab = getByPath(path, refs.editor.tabs);
     tab.classList.add('active');
     refs.fileTree.el.querySelector('.active').classList.remove('active');
@@ -85,7 +67,7 @@ const Editor = function () {
     if (row.parentElement.classList.contains('file')) {
       const path = row.dataset.path;
       if (path !== rootName) {
-        let text = refs.editor.aceEditor.session.getValue();
+        let text = refs.editor.innerHTML;
         const isRoot = (path == 'in2D.js' || path == 'in2D.css');
         if (isRoot) text = '\n' + text;
         refs.zip.file(path, text, zipCompressOptions);
