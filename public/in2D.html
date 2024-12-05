@@ -10,6 +10,8 @@
         --lightgray: #d0d0d0;
         --darkgray: #30303b;
         --margin: 8px;
+        --min-content: 20vh;
+        --max-content: calc(100vh - 30vh);
       }
 
       body {
@@ -44,7 +46,7 @@
         user-select: none;
         height: 100vh;
         display: grid;
-        grid-template: "mainTabs" min-content "tabContent" min-content "bot" 1fr;
+        grid-template: "mainTabs" min-content "tabContent" 1fr "bot" min-content;
       }
 
       .hidden {
@@ -57,6 +59,7 @@
         grid-area: bot;
         display: grid;
         grid-template: "refs cmd" 1fr / min-content 1fr;
+        max-height: 18vh;
       }
 
       #references {
@@ -168,7 +171,7 @@
       <pre class="plain" data-path="readme.md"></pre>
       <pre class="zip" data-path="src/toolbar/toolbar.js">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</pre>
       <pre class="zip" data-path="src/toolbar/toolbar.css">UEsDBAoAAAAIAKIDPlXee1T4ggAAAL0AAAALAAAAdG9vbGJhci5jc3NVy8EKwjAQBNB7vmLPYkIU8RDRg78hHrYkJAttEpYtVqT/LjZV8Dgzb4yU0l+R4aUAIpPXyAEddMgnNSvznSnXUW7yrOEsYZL74h/kJTnYWVunP32BzVaZ4EnWtPABOVLWTDGJg8Pn8yu7IlIGB8fW9pSDTqHJ/Uorek85OrDtPL8BUEsBAhQACgAAAAgAogM+Vd57VPiCAAAAvQAAAAsAAAAAAAAAAAAAAAAAAAAAAHRvb2xiYXIuY3NzUEsFBgAAAAABAAEAOQAAAKsAAAAAAA==</pre>
-      <pre class="zip" data-path="src/editor/editor.js">UEsDBAoAAAAIALqIhVmeInNvxQQAAPMOAAAJAAAAZWRpdG9yLmpzrVdLb9tGEL4X6H/YBAhIpSpVtIeiFtyithLUQNKkcdqLq8OaHFlsl7sKdylZdfTfO7MPcklRhoH2YEtcznzz/maVK6kNe1WURtXsnK0amZtSSZZO2MOXXzBm1qXONGiNhxoFHg5zOs6tmja8NnjI9V7mLN3wGqSZsPMfnW4Qg4Bew0pnt00pioWq0pukKLfJlD2wXHCtz1jiBPEI9QxCkVv8VsAZM3UD7MCWU4dR8VJ+5LeXTmwyd9ZmMwZbfNbu0aFlSqZJKTeNQdxmU3ADLtqgtStloXYZL4pXpPym1IgJdZrcwkrV0EiheOF8WpV19VtTtgbj8MgX9ArG4vT5o1j7obZKyQFD8/nz4BbEx4BZ0Ee4NvsuFsyFTifToSsuW8feXvDWS6OUwMfMH6cDhKA7OM74ZgOyuFyjK14ly4c6cQChg27sYa2U+ZVXsAxe0MEvH9++aTVNU0tv1J65rnPN6JvOfkbNGNUH36a2E+JetAfZprafC1jxRph0MrBoZdzDH1xgz52z5z/XwPaqYbrxX3ZcGmYUg/vS/MQu11zegbZvKl4A/tszqQy7Bab5FornUQTOVYXJe10KwLKNuuqkjH3rXMJY78BkuVCYSZMm1BFJcL5csfQZHmS2uaiBQzF0mnCc5y0kk0kAD/AbbtaIT3o4FFwjPB3Ng5TelSZfX7vCpfQq2DsM45Gwa/uQArLCR/FIrHgoOH1/XavqPUr2sJ3oPSaVWrSAXBXw+4erNHlx+d2LH75P+nI2HxdUbxyyDZc9NrEvr1CQ1aqRRTJ7OWVK5qLM/z5zmr4GL2cYztQZXc6HLl8j7rgBepuQJn1Z9jtpRJzq6asxZQnl/GuKPDmzpYh8i9uD4G+CG9MQ8HJ51FMDNqAynGJi//4U/9rXxDg2ttAOvSKnYYIn7vVyzkYml4DmI73ieypeHBS/gfveFNi2HiURkl9GDT2bjWDnNXiuDz1sDczjKVACMqHu0qTTTDqJ2HYpkdmIomhkEGdUqO8gSnawo/KU5OxTA/X+GgTkeISTHQY2muYaKrWFbpbn/UlGK27w+vuhVzA7Y5PTXsSE7vAGwmFRdCuU1kVLCQyEhpOcEdF3r0aD/PhOjkHG6OR/TOFshrwX/H2k1yJWaHum0xywkiNu5OuLfctv0yOvg06fuPEacuSk1VwRIdQAGYj/EK9zsDRQnfIwstPuFxR/iouPtUi8wAf17T1HfRBf1jquOCa1Wu1C7z8lSdHSRM3MXbpeCahoz45tUAI9vT8JY3R/kgEr8+ycpDxfdiiMCTCWS4L3Q6qZd6K+bvoD4oSRYIiLN9tvF9lfSNWfP7P+Ya51xBTOHwcwCVaTP2XCvurzma/lP+XGZjPi5inDw0tV4RVK63cb+pmgYwN8x/HqhXmg3bXAlPR0KQP0oqfir0Oi8Mz6hCtjhl1rr2bpMRDWUtsLOPIKW7x7+94+jwhuy9o0XCxUjsJOK7MfdCe5NnUp71LvFa5qCmC2NpU4mc+oqO2qFSMT1tmNkfBuKjIy4n/PDFdMS68jZjyizSzqdQYoT76rL/ZXOLFtAZK+7cfLFuPHeodhSjHlvoiRDzntE5yvm2+WmWrMUVs/pd461Ntb6Lw4RNfRJ1IQ/f0LUEsBAhQACgAAAAgAuoiFWZ4ic2/FBAAA8w4AAAkAAAAAAAAAAAAAAAAAAAAAAGVkaXRvci5qc1BLBQYAAAAAAQABADcAAADsBAAAAAA=</pre>
+      <pre class="zip" data-path="src/editor/editor.js">UEsDBAoAAAAIAG6ghVnNBoQUuwQAAMQOAAAJAAAAZWRpdG9yLmpzrVZLbxs3EL4X6H9gAgS7StVV0R6KWnCLWnJQA0mTxmkvrg7U7sjaliKVJVey6ui/d4YPLfehwEB7sCWR855vvmGupDbsuiiNqtglW9UyN6WSLB2xxy+/YMysS51p0BoPNQo8Hqd0nFs1bXhl8JDrg8xZuuUVSDNilz86Xcb2pSzUPuNFcb3Dq9elNiChSpMlrFQFtRSKF8mYzK3KavNbXZrR1Kk6D2ADmylpeImK6KuClc6WdSmKudqkd4mPDY085oJrfcGSjlJyXIyZj80bt0acWGb4Uvfs2sxcVT7gfToad0MZW41+tFf8FKVRSuDPzB+nHQtDmQ4kWJQ7So61s3NFw2raKPlSwAUzVQ3syBa9WIOnyYQB9UG7n74A/e6Uclsb9FBvC27AlSHYkLC/dSVPbaSVUuZXvoHGhzcbQHPXEluEDOnglw9vXp86YupK+pDsmQOaw5/Hmf2M8BfBBm9Tm1sMP3uQbSv7OYcVr4VJRx2PVsb9+IMLrOAle/5zBeygaqZr/2XPpWFGMXgozU9stubyHrS92fAC8N+BSWXYEpjmOyieRxm4UNUW5KtSAKJpMFQnZeytCwlzvQeT5UJhJU2aEFCTEHy5YukzPMgsKqhzWe66rdOE4wjvIBmNgvFgfsvNGu2THjaWazRPR9MgpfelydehvXQV/B27+SAMTuNBCVnhXj4SOx4aTt9fVWrzDiVbtp3oAxaV4F9Argr4/f1NmryYfffih++TtpytxxX1G2d/y2VrNuzlDQqyStWySCYvx0zJXJT53xdO0/fg5QTTGTuni2k35Fu0O+yAbhPSpC+LNpIGxKmfvhtjllDNv6bMkwvbiii2GB5k/i6EMQ4JLxY9THVIitrQbwHE9+fYxF4TEWJuiykbGEmSmA6AwIMlXgKUmIGHFrwtXmPWPbEDyS8ipE4mA7bzCjwRBXBaB9MY3kpAJtR9mjSaSSMR+y4lshxxD80C2hkUageIko3ZQXmqXvaxhupwCwJyPMKRDZMYjWkFG7WDZkin7RFFL26i2msgHjc3PKPzUfAtoqmYrVE3dfY6wmExNfxO6+k06wyEhrNkEPFyq0ed+niIxkaGeOJ/LOFkgoTW2k3DWIvG/YSZRrNDN46RkYivDifiGveiDjptRsbF2gvSaq5o0iuADMR/yNcFWBrYnIsw8nNaHCj+lBA/B5F4M3f62/od4SB+STRc0WerSu0D9p9SpGgbombmHnnXAja0QIdWIxk9vxjJxuBiJAdW5tll9Hyxz57GFGMCjCWUkEKXb6aNqG+efo92wlwwNI5vr2/n2V9IxJ8+sfZhrnVEFy4oZ2AUvCZ/yoR91SY139B/yq0taUTQY4aHM7XBB5LWb7f07texA77n+LDCYtBmmmNdWrpUAbpoqfjHjig8vQ6OYftBmCF07cMr7RvChmr76kdyYfO3b97Z3wOCu7IyNRdzlaOw08rsB704bk1VyvvUR4WLmBKYrM1GnK1n1NTTIhUDY9b4jS3hy1Nk5GTmnujdPXPi2AE33qKtLOo1DqhOHtpXhxsc21MDkrbvz7ctth/rHbslxZL7JkYx5LRUcMjuvllkqjY9WD+l3zr023toojhGj80n8hD9/QtQSwECFAAKAAAACABuoIVZzQaEFLsEAADEDgAACQAAAAAAAAAAAAAAAAAAAAAAZWRpdG9yLmpzUEsFBgAAAAABAAEANwAAAOIEAAAAAA==</pre>
       <pre class="zip" data-path="src/editor/editor.css">UEsDBAoAAAAIAJMKPlWq8CNmDwEAACwCAAAKAAAAZWRpdG9yLmNzc21QzU6EMBC+8xST9aKJkN01GNO9GH0F72ags9AIbdM2ysbw7k6BFFw9NO3M9zNfpyCpgnGvRgdUmhx8ZwBSedvhRUDjlDxxI945OkIBMz81A/VMDSS4AbCL6Au6HfRK5zWbkg4rYtwbVv4fEGua8R0czmw+ZsV1rmI1gCJgNQW1KKXSjYAHO8CRT7yf7BDjtaSaNgg47mOdHJNBgXVQnzT5VGbIfYvSfAnQRlPi81/uM2bS+6xe2E6SE3DgYd50SvIq8LLV/A73OAda6rwyIZhewP6UvLa98c+8zfbTojbaYOwifO4ZRLi1js7kPO+4My73dUs9CZDoPu4mw/Vr/L4almwnsYCbsizjsDEbfwBQSwECFAAKAAAACACTCj5VqvAjZg8BAAAsAgAACgAAAAAAAAAAAAAAAAAAAAAAZWRpdG9yLmNzc1BLBQYAAAAAAQABADgAAAA3AQAAAAA=</pre>
       <pre class="zip" data-path="src/fileTree/fileTree.css">UEsDBAoAAAAIACGgRVW8h1Bs6gIAAMsIAAAMAAAAZmlsZVRyZWUuY3NzjVVLbtswEN37FISDADYQurKcKCkDBN100UW76gVocWQRoUSBon8NcoucsCfpkJJsi5adejbicN6b4fw8y6SC3waAvI0IWfL0dWX0uhSM3EDi5BnVhSzpVgqbMxLH1c6puuPDZust+K6zeIhaFYJykKvcMvL41KCcWadLuUon8yja5ISSeXJf7abOxEAt/wAjS21zd9YbMJnSW7pjhK+t7un2jNSp0Uo5bcWFkOWKmoY/aVx2WqsrRu67MMwKo2sNN9xMKG10PoRMl5ZmvJDK8fOypjUYmR2umgDni4ZsZaSg3ABnxGIen0fvo9khqWvl89oGwUh0dN87UAXZUChK1ujP7hU6LHUJQTUwfS6IwGPr9Iildl8hwfjvx8e4b60kY+juFYyHpFppw/BJfN+3mxm9PesQ5fLX2P7PE7GiVhdhEU7rstRGgKGGC7muD9ptLi3QuuKpT8LW8Mqpuz5aRI2ZkHWl+J75ggTRuy/ycnyFr5mFAgEWGCoIGaOT4hcvgBRQrn+kuhz7TOOHhdKSL2SemZBWK4z3M+LGyjGST33EOCgDjpCe5a7r7wLtjKdWbgaGN4udnNO0gIZtAJZlfQymvWy7qQQa5jxdm9o1TKUlvmA4Pf7hb/1BOd6czdtPXWpf64DskDpHtcaBxKFUkGIwFnY2GMTO+HRZMJJLIcB7dBB6vAClZFXLutdGmYLdlTZ6CUK6NseDDzkpgQ9HQKoNt1Lj2GAxwLiMB9iubcJ8dvqLBbi7yNIt8nZddhXuzr2yx0+no4vncPn0qXudFfnfPL4AuNSQDSz66mCjbwUIycmkMpCBqalfV7ROc8B0EoF7bOoZZr0/tYAxXjh59hftvrv5HjtxuvcePFiPR0CSJOfWhy0QeFwsnTQefanrnAvXdxGZ47g3zeKid7t0Osx7kp+APVk6GUadrodj8H7IQ568VpNIwIpEt2SR3E6vEl6O5nHpZADc64zzrRNfgVz2hsD7Bojd8Q9QSwECFAAKAAAACAAhoEVVvIdQbOoCAADLCAAADAAAAAAAAAAAAAAAAAAAAAAAZmlsZVRyZWUuY3NzUEsFBgAAAAABAAEAOgAAABQDAAAAAA==</pre>
       <pre class="zip" data-path="src/fileTree/fileTree.js">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</pre>
@@ -177,6 +180,7 @@
       <pre class="zip" data-path="credits.txt">UEsDBAoAAAAIAC+LRlUgSW2jkwIAADMEAAALAAAAY3JlZGl0cy50eHRVkstO20AUQPfzFfMFtFJ33dGqahd0RX/AGEPSJjGynUpsKiAmmTjhlfAOaXgnEN4FQilQKez7Ef6CfELPFVJFF+fOGdszc+8dW9kg4Xqv9WgySGSH+mw3/cKzRiwnZVt+4Lm2mw1clUraTsZ2XusPybEx1/asIGnrAXnoO/pV30s9kvT8YNjNuAnLS/cNO1+Vepd2PyeV6jXKRvcaixFhtilhlzBzqOPjeR1vtHRcrsE6D+dnCAsSKlsSjiQ8EKqTEqYk5CSUJJQldGRrWbGaU+qN5ZPWRytI6MHx9JCb8pWKi5u6e65jU9WPHf24gq3peKLKuM54puOIZ9ESLMMq8L64C3uwD00gzeIB3MIvuIN7vp0DyogWoKK7F7r7Q3fPlHrvuGkn8MafJWI2ObPBW5ZO628czoGNKR23a0r1p0adIc96nvcW322AYVkdvuN0rdimW1FcLjGYuFzkzWpsyMOQhyGP0gRMAluXcjpuMW8xb9G/+vKShGUJK0oNOoH+lHDc//OcZh9SM6zJU39+B6d2w+FRHtg3CiGCAnBGxJqo9NRDIwlLWsxNWcchvQ3pZ0i/QwoJWR9ewTV04IZsqg2lBtxRru9fIt0j1tN303y6n3wFqLHAWGDMLzKCoT5DDoaczCWwd8R5EfcXbQN7tGW+o9RbK2VnU1lfW5lh3Z+xUuN+0n9eO801cu4xnMApcGGGOk1e/5HtJX1+qJA0wio37TnOFz3gBIHjsUWvXtuGO2qq7cC9yC48iOzBb5H9Xn1jAuQmak1kUqSFyC3VDpAcrMjkEAlF2si0yBGSFzlGCiIniBE5RYoiZ0gkco6URC6QssglMityhcyJXCPzIh1kDRZkcoNURH4iVZFbZFH9BVBLAQIUAAoAAAAIAC+LRlUgSW2jkwIAADMEAAALAAAAAAAAAAAAAAAAAAAAAABjcmVkaXRzLnR4dFBLBQYAAAAAAQABADkAAAC8AgAAAAA=</pre>
     </div>
     <script data-path="in2D.js">
+      const debug = true;
       const proxyTarget = {};
       const referencesEl = document.getElementById('references');
       const startReferences = (parent) => {
@@ -307,25 +311,30 @@
         refs.rootFiles = document.getElementById('rootFiles');
         refs.mainTabContent = document.getElementById('mainTabContent');
         refs.buildDom = buildDom;
-
-        await importJS('lib/zip/jszip.js');
+        // imports
+        if (!window['JSZip'])
+          await importJS('lib/zip/jszip.js');
         await importCSS('src/tabs/tabs.css');
         await addRootFiles();
         // HTML CSS and JS to pre rootFiles
         refs.zip = await zipRootFiles();
         // pre rootFiles to zip
-        await importJS('src/toolbar/toolbar.js');
+        if (!window['Toolbar'])
+          await importJS('src/toolbar/toolbar.js');
         await importCSS('src/toolbar/toolbar.css');
         refs.toolBar = new ToolBar()
         refs.toolBar.topBar(mainTabContent);
-        await importJS('src/fileTree/fileTree.js');
+        if (!window['FileTree'])
+          await importJS('src/fileTree/fileTree.js');
         refs.fileTree = new FileTree(refs.zip);
         // zip to fileTree
         await importCSS('src/fileTree/fileTree.css');
-        refs.fileTree.el = await refs.fileTree.start(mainTabContent);
-        await importJS('src/editor/editor.js');
+        refs.fileTree.el = await refs.fileTree.start(refs.mainTabContent);
+        if (!window['Editor'])
+          await importJS('src/editor/editor.js');
         await importCSS('src/editor/editor.css');
         refs.editor = await new Editor();
+        refs.editor.start(refs.rootName, refs.rootHTML);
         // tabs and editBar
         startReferences(referencesEl);
         document.getElementById('cmdInput').addEventListener('keydown', cmdKeydown);
@@ -338,20 +347,41 @@
       ;
 
       const importCSS = async (path) => {
-        const data = await getFileData(path, rootFiles);
-        const style = document.createElement('style');
-        style.textContent = data;
-        style.dataset.path = path;
-        return document.head.appendChild(style);
+        let style;
+        if (debug) {
+          style = document.createElement('link');
+          style.href = path;
+          style.rel = 'stylesheet';
+        } else {
+          style = document.createElement('style');
+          const data = await getFileData(path, rootFiles);
+          style.textContent = data;
+          style.dataset.path = path;
+        }
+        document.head.appendChild(style);
+        return style;
       }
       ;
+      const loadScript = function(path, script) {
+        return new Promise(function(resolve, reject) {
+          script.onload = resolve;
+          script.src = path;
+          document.body.appendChild(script);
+        }
+        );
+      };
 
       const importJS = async (path) => {
-        const data = await getFileData(path, rootFiles);
         const script = document.createElement('script');
-        script.textContent = data;
-        script.dataset.path = path;
-        document.body.appendChild(script);
+        if (debug) {
+          await loadScript(path, script);
+        } else {
+          const data = await getFileData(path, rootFiles);
+          script.textContent = data;
+          script.dataset.path = path;
+          document.body.appendChild(script);
+        }
+        return script;
       }
       ;
 

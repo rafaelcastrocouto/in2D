@@ -3,9 +3,8 @@
   min-width: 22px;
   width: 25vw;
   max-width: 50vw;
-  min-height: 78px;
-  max-height: calc(100vh - 164px);
-  resize: both;
+  min-height: var(--min-content);
+  max-height: var(--max-content);
   overflow-x: auto;
   overflow-y: scroll;
   padding-right: 6px;

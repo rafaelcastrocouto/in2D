@@ -1,6 +1,6 @@
 const ToolBar = function () {
   const topBar = (parent) => {  
-    const toolBar = refs.buildDom(['div', { class: 'toolBar'},
+    const toolBar = refs.buildDom(['section', { class: 'toolBar'},
       ['button', { onclick: newFile }, 'new'],
       ['button', { onclick: openFile }, 'open'],
       ['button', { onclick: importLink }, 'import'],
@@ -10,7 +10,9 @@ const ToolBar = function () {
       ['button', { onclick: saveFile }, 'save'],
       ['a', { ref: 'link', class: 'hidden' }],
       ['button', { onclick: zipSession }, 'zip'],
-      ['button', { onclick: runSession }, 'run']
+      ['button', { onclick: runSession }, 'render'],
+      ['button', { onclick: ctrlC }, 'copy'],
+      ['button', { onclick: ctrlV }, 'paste']
     ], parent, refs.toolBar);
     /*todo
     undo redo
@@ -103,15 +105,46 @@ const ToolBar = function () {
     const newWindow = window.open();
     newWindow.document.write(refs.editor.aceEditor.session.getValue());
   };
-  /* edit bar */
-  const editBar = (parent) => {
-    const toolBar = refs.buildDom(['div', { class: 'editBar'},
-      ['button', { ref: 'undoEdit', onclick: () => { console.log('click') } }, 'undo'],
-    ], parent, refs.toolBar);
-    /*todo
-    content mode reactive buttons
-    */
-    return toolBar;
+  
+  const ctrlC = () => {
+    const selection = window.getSelection();
+    const text = selection.getRangeAt(0).extractContents().textContent;
+    navigator.clipboard.writeText(text).then(function() {
+      //alert('Copyed to clipboard Ctrl + C');
+      log('copyed to clipboard: ' + text);
+    });
   };
-  this.editBar = editBar;
+  
+  const ctrlV = async () => {
+    const saved = saveSelections();
+    const text = await navigator.clipboard.readText();
+    insertTextAtCaret(text);
+    restoreSelections(saved);
+  };
+  
+  const insertTextAtCaret = (text) => {
+    const selection = window.getSelection();
+    for (let i=0; i<selection.rangeCount; i++) {
+      const range = selection.getRangeAt(i);
+      range.deleteContents();
+      range.insertNode( document.createTextNode(text) );
+    }
+  };
+
+  const saveSelections = () => {
+    const selection = window.getSelection();
+    const saved = [];
+    for (let i=0; i<selection.rangeCount; i++) {
+       saved.push( window.getSelection().getRangeAt(i) );
+    }
+    return saved;
+  };
+  
+  const restoreSelections = (saved) => {
+    const selection = window.getSelection();
+    for (let i=0; i<saved.length; i++) {
+      selection.addRange(saved[i]);
+    }
+  };
+  
 };

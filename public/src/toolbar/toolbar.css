@@ -4,8 +4,7 @@
 .toolBar input[type=text] {
   width: 100px;
 }
-.toolBar > *,
-.editBar > * {
+.toolBar > * {
   margin-right: 4px;
   margin-bottom: 6px;
   line-height: 24px;

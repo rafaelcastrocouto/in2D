@@ -1,16 +1,12 @@
 const Editor = function () {
   this.sessions = {};
-  const start = async (parent) => {
-    const editor = refs.buildDom(['div', { class: 'editor', contentEditable: true } ], refs.mainTabContent);
-    // events
-    editor.on('input', updateEditor);
+  const start = (path, text) => {
     window.addEventListener('beforeunload', confirmQuit);
-    const editorContainer = refs.buildDom(['session', {class: 'editorContainer'}], parent);
-    refs.editor.tabs = refs.buildDom(startEditorTabs(), editorContainer, refs);
-    const editBar = refs.toolBar.editBar(editorContainer);
-    editorContainer.appendChild(editor.container);
-    refs.editor.sessions[refs.rootName] = refs.rootHTML;
-    return editor;
+    refs.editorContainer = refs.buildDom(['session', {class: 'editorContainer'}], refs.mainTabContent);
+    refs.editorTabs = refs.buildDom(startEditorTabs(), refs.editorContainer);
+    refs.editorSession = refs.buildDom(['session', {class: 'editorSession'}], refs.editorContainer);
+    const session = newSession(path, text);
+    return session;
   };
   this.start = start;
   const confirmQuit = (event) => {
@@ -32,29 +28,26 @@ const Editor = function () {
     return ['span', { class: 'tab active', 'data-path': path, onclick: openFileTab  }, [nameSpan, closeBt]];
   };
   const startEditorTabs = () => {
-    const editorTabs = ['div', { class: 'editorTabs tabs' }, 
-       newEditorTab(rootName)
-    ]; 
+    const editorTabs = ['div', { class: 'editorTabs tabs' }]; 
     return editorTabs;
   };
   const newSession = async (path, text) => {
     if (!refs.editor.sessions[path]) {
-      //const newSession = createEditSession(text);
-      console.log('newSession');
-      refs.editor.innerHTML = text;
-      refs.editor.sessions[path] = newSession;
-      refs.editor.tabs.querySelector('.active').classList.remove('active');
-      const newTab = refs.buildDom(newEditorTab(path));
-      refs.editor.tabs.appendChild(newTab);
-      refs.toolBar.updateEditBar();
+      const editor = refs.buildDom(['pre', { class: 'editor', contentEditable: true } ], refs.editorSession);
+      editor.addEventListener('input', updateEditor);
+      editor.textContent = text;
+      refs.editorTabs.querySelector('.active')?.classList.remove('active');
+      const tab = refs.buildDom(newEditorTab(path));
+      refs.editorTabs.appendChild(tab);
+      refs.editor.sessions[path] = {editor, tab, path, text};
     } else switchSession(path);
   };
   this.newSession = newSession;
   const switchSession = (path) => {
-    refs.editor.tabs.querySelector('.active').classList.remove('active');
+    refs.editorTabs.querySelector('.active').classList.remove('active');
     //setSession(refs.editor.sessions[path]);
     console.log('setSession');
-    const tab = getByPath(path, refs.editor.tabs);
+    const tab = getByPath(path, refs.editorTabs);
     tab.classList.add('active');
     refs.fileTree.el.querySelector('.active').classList.remove('active');
     const item = getByPath(path, refs.fileTree.el);
@@ -66,7 +59,7 @@ const Editor = function () {
     const row = refs.fileTree.el.querySelector('.active');
     if (row.parentElement.classList.contains('file')) {
       const path = row.dataset.path;
-      if (path !== rootName) {
+      if (path !== refs.rootName) {
         let text = refs.editor.innerHTML;
         const isRoot = (path == 'in2D.js' || path == 'in2D.css');
         if (isRoot) text = '\n' + text;
@@ -86,6 +79,5 @@ const Editor = function () {
         refs.editor.sessions[refs.rootName].setValue(newHTML);
       }
     }
-    refs.toolBar.updateEditBar();
   };
 };

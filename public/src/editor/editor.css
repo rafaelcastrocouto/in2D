@@ -1,10 +1,10 @@
 .editorContainer {
   display: grid;
-  grid-area: editor;
+  max-height: var(--max-content);
+  grid-area: editorContainer;
   grid-template:
-    "editBar" min-content
     "editorTabs" min-content
-    "aceeditor" 1fr;
+    "editor" 1fr;
 }
 .editorContainer .editorTabs .tab {
   padding: 3px 2px 3px 8px;
@@ -13,22 +13,21 @@
 .editorTabs .tab.active {
   box-shadow: none;
 }
-.editBar,
-.ace_editor {
+.editorSession {
+  overflow: scroll;
+  grid-area: editor;
+}
+.editor {
   border: 1px solid gray;
-}
-.editBar {
-  padding: 6px;
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-.ace_editor {
-  grid-area: aceeditor;
-  border-top: 0;
+  font-family: monospace;
+  unicode-bidi: isolate;
+  white-space: pre;
+  background: #1e1e20;
+  padding: var(--margin);
+  margin: 0;
 }
 @media (prefers-color-scheme: dark) {
-  .editBar,
-  .ace_editor {
+  .editor {
     border-color: #555;
   }
 }

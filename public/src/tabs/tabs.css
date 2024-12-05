@@ -13,8 +13,9 @@
   grid-area: tabContent;
   grid-template:
     "bar bar" min-content
-    "tree editor" 1fr / min-content 1fr;
+    "tree editorContainer" 1fr / min-content 1fr;
   z-index: 1;
+  /* max-height: var(--max-content); */
 }
 .tabs {
   display: inline-flex;

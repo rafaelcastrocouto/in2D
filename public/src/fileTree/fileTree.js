@@ -3,7 +3,7 @@ const FileTree = function (zip) {
   const downArrowChar = '\u25be';
   const rightArrowChar = '\u25b8';
   const start = (container) => {
-    const el = refs.buildDom(['div', { class: 'fileTree'}], container);
+    const el = refs.buildDom(['section', { class: 'fileTree'}], container);
     const rootList = refs.buildDom(['ul', { ref: 'rootList' }], el, refs.fileTree);
     zip.forEach((path) => {
       const dirPath = path.endsWith('/') ? path.slice(0, -1) : path;
@@ -120,7 +120,7 @@ const FileTree = function (zip) {
     getByPath(oldPath, rootFiles).remove();
     rootFiles.appendChild(newPre);
     // update tab
-    const tab = getByPath(oldPath, refs.editor.tabs);
+    const tab = getByPath(oldPath, refs.editorTabs);
     tab.dataset.path = newPath;
     tab.querySelector('.name').textContent = newName;
     // update zip
